@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: cluster-autoscaler_build
+  annotations:
+    iam.amazonaws.com/role: jenkins-k8s-agent
+spec:
+  containers:
+  - name: golang
+    image: 598971202176.dkr.ecr.us-west-2.amazonaws.com/tools/golang:1.17.1
+    command:
+    - cat
+    tty: true
+    securityContext:
+      privileged: true
+

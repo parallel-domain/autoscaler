@@ -125,6 +125,7 @@ var (
 	coresTotal               = flag.String("cores-total", minMaxFlagString(0, config.DefaultMaxClusterCores), "Minimum and maximum number of cores in cluster, in the format <min>:<max>. Cluster autoscaler will not scale the cluster beyond these numbers.")
 	memoryTotal              = flag.String("memory-total", minMaxFlagString(0, config.DefaultMaxClusterMemory), "Minimum and maximum number of gigabytes of memory in cluster, in the format <min>:<max>. Cluster autoscaler will not scale the cluster beyond these numbers.")
 	gpuTotal                 = multiStringFlag("gpu-total", "Minimum and maximum number of different GPUs in cluster, in the format <gpu_type>:<min>:<max>. Cluster autoscaler will not scale the cluster beyond these numbers. Can be passed multiple times. CURRENTLY THIS FLAG ONLY WORKS ON GKE.")
+	gpuResourceNames         = flag.String("gpu-resource-names", "", "Comma separated list of GPU resource names the node may have.")
 	cloudProviderFlag        = flag.String("cloud-provider", cloudBuilder.DefaultCloudProvider,
 		"Cloud provider type. Available values: ["+strings.Join(cloudBuilder.AvailableCloudProviders, ",")+"]")
 	maxBulkSoftTaintCount      = flag.Int("max-bulk-soft-taint-count", 10, "Maximum number of nodes that can be tainted/untainted PreferNoSchedule at the same time. Set to 0 to turn off such tainting.")
@@ -198,6 +199,9 @@ func createAutoscalingOptions() config.AutoscalingOptions {
 	if err != nil {
 		klog.Fatalf("Failed to parse flags: %v", err)
 	}
+
+	parsedGpuResourceNames := strings.Split(strings.ReplaceAll(*gpuResourceNames, " ", ""), ",")
+
 	return config.AutoscalingOptions{
 		NodeGroupDefaults: config.NodeGroupAutoscalingOptions{
 			ScaleDownUtilizationThreshold:    *scaleDownUtilizationThreshold,
@@ -226,6 +230,7 @@ func createAutoscalingOptions() config.AutoscalingOptions {
 		MaxMemoryTotal:                     maxMemoryTotal,
 		MinMemoryTotal:                     minMemoryTotal,
 		GpuTotal:                           parsedGpuTotal,
+		GpuResourceNames:                   parsedGpuResourceNames,
 		NodeGroups:                         *nodeGroupsFlag,
 		ScaleDownDelayAfterAdd:             *scaleDownDelayAfterAdd,
 		ScaleDownDelayAfterDelete:          *scaleDownDelayAfterDelete,
