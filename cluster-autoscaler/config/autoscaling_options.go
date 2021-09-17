@@ -65,6 +65,8 @@ type AutoscalingOptions struct {
 	MinMemoryTotal int64
 	// GpuTotal is a list of strings with configuration of min/max limits for different GPUs.
 	GpuTotal []GpuLimits
+	// GpuResourceNames is a list of GPU resource names the node may have.
+	GpuResourceNames []string
 	// NodeGroupAutoDiscovery represents one or more definition(s) of node group auto-discovery
 	NodeGroupAutoDiscovery []string
 	// EstimatorName is the estimator used to estimate the number of needed nodes in scale up.
