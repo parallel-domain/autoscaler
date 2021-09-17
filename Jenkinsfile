@@ -89,7 +89,7 @@ environment {
     }
 
     stage('Push container image') {
-      //when { branch 'master' }
+      when { branch 'cluster-autoscaler-release-1.21' }
       steps {
         container('golang') {
           sh 'podman push $CONTAINER_REGISTRY/3rdparty/cluster-autoscaler:$IMAGE_TAG'
