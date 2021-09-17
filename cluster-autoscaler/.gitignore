@@ -1,3 +1,4 @@
+build/
 cluster-autoscaler
 cluster-autoscaler-amd64
 cluster-autoscaler-arm64
