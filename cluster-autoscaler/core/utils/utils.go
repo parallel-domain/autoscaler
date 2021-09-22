@@ -266,6 +266,8 @@ func sanitizeTemplateNode(node *apiv1.Node, nodeGroup string, ignoredTaints tain
 	}
 	newNode.Name = nodeName
 	newNode.Spec.Taints = taints.SanitizeTaints(newNode.Spec.Taints, ignoredTaints)
+	klog.V(3).Infof("%s labels after sanitazation: %v", newNode.Name, newNode.Labels)
+	klog.V(3).Infof("%s taints after sanitazation: %v", newNode.Name, newNode.Spec.Taints)
 	return newNode, nil
 }
 
