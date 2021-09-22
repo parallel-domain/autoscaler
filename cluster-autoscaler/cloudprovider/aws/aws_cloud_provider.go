@@ -303,7 +303,7 @@ func (ng *AwsNodeGroup) Id() string {
 
 // Debug returns a debug string for the Asg.
 func (ng *AwsNodeGroup) Debug() string {
-	return fmt.Sprintf("%s (%d:%d)", ng.Id(), ng.MinSize(), ng.MaxSize())
+	return fmt.Sprintf("%s (%d:%d) %v", ng.Id(), ng.MinSize(), ng.MaxSize(), ng.asg.Tags)
 }
 
 // Nodes returns a list of all nodes that belong to this node group.

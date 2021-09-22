@@ -111,6 +111,8 @@ func GetNodeInfosForGroups(nodes []*apiv1.Node, nodeInfoCache map[string]*schedu
 
 		// No good template, trying to generate one. This is called only if there are no
 		// working nodes in the node groups. By default CA tries to use a real-world example.
+		klog.V(3).Infof("Generating nodeInfo from ASG: %s", nodeGroup.Debug())
+		klog.V(3).Infof("Ignored taints for %s: %v", nodeGroup.Id(), ignoredTaints)
 		nodeInfo, err := GetNodeInfoFromTemplate(nodeGroup, daemonsets, predicateChecker, ignoredTaints)
 		if err != nil {
 			if err == cloudprovider.ErrNotImplemented {

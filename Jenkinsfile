@@ -16,7 +16,7 @@ pipeline {
 
     string(
       name: 'IMAGE_TAG',
-      defaultValue: '1.21.0-pd.0',
+      defaultValue: '1.21.0-pd.test-1',
       description: 'The tag to use for building the container image'
     )
 
@@ -89,7 +89,7 @@ environment {
     }
 
     stage('Push container image') {
-      when { branch 'cluster-autoscaler-release-1.21' }
+      //when { branch 'cluster-autoscaler-release-1.21' }
       steps {
         container('golang') {
           sh 'podman push $CONTAINER_REGISTRY/3rdparty/cluster-autoscaler:$IMAGE_TAG'
