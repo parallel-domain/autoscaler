@@ -112,7 +112,6 @@ func GetNodeInfosForGroups(nodes []*apiv1.Node, nodeInfoCache map[string]*schedu
 		// No good template, trying to generate one. This is called only if there are no
 		// working nodes in the node groups. By default CA tries to use a real-world example.
 		klog.V(3).Infof("Generating nodeInfo from ASG: %s", nodeGroup.Debug())
-		klog.V(3).Infof("Ignored taints for %s: %v", nodeGroup.Id(), ignoredTaints)
 		nodeInfo, err := GetNodeInfoFromTemplate(nodeGroup, daemonsets, predicateChecker, ignoredTaints)
 		if err != nil {
 			if err == cloudprovider.ErrNotImplemented {
@@ -264,7 +263,11 @@ func sanitizeTemplateNode(node *apiv1.Node, nodeGroup string, ignoredTaints tain
 			newNode.Labels[k] = nodeName
 		}
 	}
+	klog.V(3).Infof("%s original node labels: %v", node.Name, node.Labels)
+	klog.V(3).Infof("%s original node taints: %v", node.Name, node.Spec.Taints)
 	newNode.Name = nodeName
+	klog.V(3).Infof("%s labels before sanitazation: %v", newNode.Name, newNode.Labels)
+	klog.V(3).Infof("%s taints before sanitazation: %v", newNode.Name, newNode.Spec.Taints)
 	newNode.Spec.Taints = taints.SanitizeTaints(newNode.Spec.Taints, ignoredTaints)
 	klog.V(3).Infof("%s labels after sanitazation: %v", newNode.Name, newNode.Labels)
 	klog.V(3).Infof("%s taints after sanitazation: %v", newNode.Name, newNode.Spec.Taints)
