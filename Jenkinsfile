@@ -16,7 +16,7 @@ pipeline {
 
     string(
       name: 'IMAGE_TAG',
-      defaultValue: '1.21.0-pd.test-1',
+      defaultValue: '1.21.0-pd.test-2',
       description: 'The tag to use for building the container image'
     )
 
