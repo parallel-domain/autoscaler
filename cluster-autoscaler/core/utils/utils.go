@@ -264,13 +264,13 @@ func sanitizeTemplateNode(node *apiv1.Node, nodeGroup string, ignoredTaints tain
 		}
 	}
 	klog.V(3).Infof("%s original node labels: %v", node.Name, node.Labels)
-	klog.V(3).Infof("%s original node taints: %v", node.Name, node.Spec.Taints)
+	klog.V(3).Infof("%s original node taints: %#v", node.Name, node.Spec.Taints)
 	newNode.Name = nodeName
 	klog.V(3).Infof("%s labels before sanitazation: %v", newNode.Name, newNode.Labels)
-	klog.V(3).Infof("%s taints before sanitazation: %v", newNode.Name, newNode.Spec.Taints)
+	klog.V(3).Infof("%s taints before sanitazation: %#v", newNode.Name, newNode.Spec.Taints)
 	newNode.Spec.Taints = taints.SanitizeTaints(newNode.Spec.Taints, ignoredTaints)
 	klog.V(3).Infof("%s labels after sanitazation: %v", newNode.Name, newNode.Labels)
-	klog.V(3).Infof("%s taints after sanitazation: %v", newNode.Name, newNode.Spec.Taints)
+	klog.V(3).Infof("%s taints after sanitazation: %#v", newNode.Name, newNode.Spec.Taints)
 	return newNode, nil
 }
 
